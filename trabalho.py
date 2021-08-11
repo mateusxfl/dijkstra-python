@@ -1,16 +1,25 @@
-entrada = open('entrada.txt','r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os números que representam uma aresta, e seu respectivo peso.
+entrada = open('entrada.txt','r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os vértices que formam cada aresta, e seu respectivo peso.
 
 primeiraLinha = entrada.readlines(1)[0].split(' ')
 
 totalDeVertices = int(primeiraLinha[0])
 totalDeArestas = int(primeiraLinha[1])
 
-verticesNaoVisitados = list() # Inicia um vetor para verificar quais vértices ja foram visitados.
+listaDeRelacionamentos = list() # Declaramos um dicionário com a finalidade de armazenar os relacionamentos entre os vértices e também seus respectivos pesos.
+relacionamentos = dict(listaDeRelacionamentos)
 
-for x in range(0, totalDeVertices): # Inicia todos os vértices como nãoi visitados ( -1 )
-    verticesNaoVisitados.append(-1)
+for linha in entrada: # Preenche o vetor de relacionamentos.
+    primeiroVertice = int(linha.split()[0])
+    segundoVertice = int(linha.split()[1])
+    pesoAresta = int(linha.split()[2])
+    # print(primeiroVertice,segundoVertice,pesoAresta)
 
-print(verticesNaoVisitados)
+    if primeiroVertice not in relacionamentos: # Cria uma chave que não existe ainda no vetor de relacionamentos.
+        relacionamentos[primeiroVertice] = list()
+
+    relacionamentos[primeiroVertice].append([segundoVertice, pesoAresta]) # Adiciona o relacionamento X Y e seu respectivo peso.
+
+# print('Relacionamentos:',relacionamentos)
 
 entrada.close()
 
