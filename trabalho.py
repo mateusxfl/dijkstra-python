@@ -1,4 +1,4 @@
-entrada = open('entrada.txt','r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os vértices que formam cada aresta, e seu respectivo peso.
+entrada = open('entradas/entrada2.txt','r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os vértices que formam cada aresta, e seu respectivo peso.
 
 primeiraLinha = entrada.readlines(1)[0].split(' ')
 
@@ -20,16 +20,30 @@ for linha in entrada: # Preenche o vetor de relacionamentos e inicializa o vetor
     if primeiroVertice not in relacionamentos: # Cria uma chave que não existe ainda no vetor de relacionamentos.
         relacionamentos[primeiroVertice] = list()
 
-    if primeiroVertice not in caminhos: # Inicializa o vetor de caminhos, que informa o menor caminho até um vértice.
+    if primeiroVertice not in caminhos: # Preenche o vetor de caminhos com valores ainda desconhecidos, informando que o mesmo ainda não foi visitado.
         caminhos[primeiroVertice] = -1   
-    elif segundoVertice not in caminhos:
-        caminhos[segundoVertice] = -1        
+    if segundoVertice not in caminhos:
+        caminhos[segundoVertice] = -1     
 
     relacionamentos[primeiroVertice].append([segundoVertice, pesoAresta]) # Adiciona o relacionamento X Y e seu respectivo peso.
 
-# print('Relacionamentos:',relacionamentos)
-# print('Caminhos:',caminhos)
+print('Relacionamentos:',relacionamentos)
+print('Caminhos:',caminhos)
+
+for vertice in caminhos: # Percorre todos os vértices do grafo.
+    if vertice == 1: # Caso o vértice seja o primeiro.
+        caminhos[vertice] = 0
+
+    if vertice in relacionamentos: # Se o vértice tem algum relacionamento com outro vértice, que ainda não tenha sido verificado.
+        for verticeAdjacente in relacionamentos[vertice]: # Percorre todos os vertices adjacentes do vertice atual.
+            adjacente = verticeAdjacente[0] # Captura o vértice adjacente ao mesmo.
+            pesoAresta = verticeAdjacente[1] # Peso da aresta dos dois vértices.
+
+            if caminhos[adjacente] == -1 or pesoAresta < caminhos[adjacente]: # Caso o caminho ainda não tenha sido visitado ou tenha sido encontrado um caminho menor.
+                caminhos[adjacente] = caminhos[vertice] + pesoAresta # O novo caminho até esse vértice é o caminho até o verticeAdjacente + peso da aresta.
+
+        # print('Caminhos', vertice, ':', caminhos) # Imprimindo cada execução para via de teste.
+
+print('Menores caminhos:',caminhos)
 
 entrada.close()
-
-
