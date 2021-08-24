@@ -1,4 +1,10 @@
-entrada = open('entradas/entrada1.txt','r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os vértices que formam cada aresta, e seu respectivo peso.
+import sys
+
+if len(sys.argv) < 3:
+    print("Número incorreto de argumentos. Utilize nesse formato: python trabalho.py entrada.txt saida.txt")
+    sys.exit() # Encerra a execução do programa
+  
+entrada = open(sys.argv[1],'r') # Lê uma entrada TXT que contém o total de vértices / arestas na linha 1, e nas demais: os vértices que formam cada aresta, e seu respectivo peso.
 
 primeiraLinha = entrada.readlines(1)[0].split(' ')
 
@@ -55,7 +61,7 @@ for vertice in menorCaminho: # Percorre todos os vértices do grafo.
 
 ultimoVertice = len(menorCaminho) # Maior valor de vértice, ou seja, o último.
 
-arquivo = open("saida.txt", "w") # Escreve a saída (resposta).
+arquivo = open(sys.argv[2], "w") # Escreve a saída (resposta).
 
 linhas = list() # Inicializa o vetor de linhas, para no fim adicioná-lo ao arquivo TXT de saída.
 
@@ -73,3 +79,7 @@ print(str(len(verticesInternosNoCaminho)))
 for i in range(len(verticesInternosNoCaminho)): # Adiciona os demais vértices internos do menor caminho nas demais linhas.
     linhas.append(str(verticesInternosNoCaminho[i]) + '\n')
     print(str(verticesInternosNoCaminho[i]))
+
+arquivo.writelines(linhas) 
+
+arquivo.close()
